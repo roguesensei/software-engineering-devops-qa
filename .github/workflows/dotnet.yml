@@ -27,7 +27,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Deploy
-      if: github.ref == "refs/heads/master"
+      if: github.ref == 'refs/heads/master'
       run: |
         curl -X POST \
           -H "Authorization: Bearer ${{secrets.API_KEY}}" \
