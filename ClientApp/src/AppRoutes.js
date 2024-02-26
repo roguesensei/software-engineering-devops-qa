@@ -1,6 +1,6 @@
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
-import { Home } from "./components/Home";
+import { FetchData } from './components/FetchData';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 const AppRoutes = [
   {
@@ -8,8 +8,8 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
+    path: '/login',
+    element: <Login /> // https://blog.logrocket.com/authentication-react-router-v6/
   },
   {
     path: '/fetch-data',

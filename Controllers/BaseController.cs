@@ -5,7 +5,7 @@ namespace software_engineering_devops_qa.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class BaseController : ControllerBase
 {
 
