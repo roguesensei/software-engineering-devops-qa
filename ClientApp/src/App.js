@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import { Layout } from './components/Layout';
 import './custom.css';
+import Login from './pages/Login';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -11,10 +12,12 @@ export default class App extends Component {
     return (
       <Layout>
         <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, ...rest } = route;
-            return <Route key={index} {...rest} element={element} />;
-          })}
+          <Route>
+              {AppRoutes.map((route, index) => {
+                const { element, ...rest } = route;
+                return <Route key={index} {...rest} element={element} />;
+              })}
+          </Route>
         </Routes>
       </Layout>
     );
