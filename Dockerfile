@@ -20,11 +20,9 @@ RUN dotnet restore
 RUN dotnet build -c Release -o /app/build
 
 FROM build as test
-WORKDIR /test
-COPY . /test
 RUN dotnet test
 
-FROM build as publish
+FROM test as publish
 RUN dotnet publish -c Release -o /app/publish
 
 FROM base as final
