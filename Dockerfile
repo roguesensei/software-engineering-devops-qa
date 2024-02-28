@@ -25,7 +25,7 @@ COPY . /test
 RUN dotnet test
 
 FROM build as publish
-RUN dotnet publish "software-engineering-devops-qa.csproj" -c Release -o /app/publish
+RUN dotnet publish -c Release -o /app/publish
 
 FROM base as final
 WORKDIR /app
