@@ -27,4 +27,4 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest
+        tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest,${{ secrets.DOCKERHUB_IMAGE }}:$(date +'%Y-%m-%d-%T')
