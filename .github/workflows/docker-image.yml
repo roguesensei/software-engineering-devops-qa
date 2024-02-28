@@ -16,10 +16,6 @@ jobs:
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H%M')"
-    - name: Test with environment variables
-      run: echo $TAG_NAME
-      env:
-        TAG_NAME: ${{ steps.date.outputs.date }}
     - name: Checkout
       uses: actions/checkout@v3
     - name: Set up QEMU
@@ -34,4 +30,4 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest,${{ secrets.DOCKERHUB_IMAGE }}:$(date +'%Y-%m-%dT%H%M')
+        tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest,${{ secrets.DOCKERHUB_IMAGE }}:${{ steps.date.outputs.date }}
