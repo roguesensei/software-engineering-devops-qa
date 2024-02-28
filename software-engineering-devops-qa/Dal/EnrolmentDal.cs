@@ -5,13 +5,18 @@ namespace software_engineering_devops_qa.Dal;
 
 public class EnrolmentDal : IDal<Enrolment>
 {
-	public static void Init()
+	public static void Init(string dbConnection)
 	{
-		using var sqlite = new SqliteContext(Config.LmsDbConnection);
+		using var sqlite = new SqliteContext(dbConnection);
 		sqlite.ExecuteNonQuery(initSql);
 	}
 
-	public List<Enrolment> Get()
+	public List<Enrolment> Get(string dbConnection)
+	{
+		throw new NotImplementedException();
+	}
+
+	public int Add(string dbConnection, Enrolment model)
 	{
 		throw new NotImplementedException();
 	}

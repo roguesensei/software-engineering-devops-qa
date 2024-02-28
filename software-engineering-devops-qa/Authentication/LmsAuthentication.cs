@@ -19,7 +19,7 @@ public class LmsAuthentication
 
 	public static CurrentUser? GetUserByUsername(string username)
 	{
-		var user = new UserDal().GetByUsername(username);
+		var user = new UserDal().GetByUsername(Config.LmsDbConnection, username);
 		if (user is not null)
 		{
 			return GetCurrentUser(user.UserId);
