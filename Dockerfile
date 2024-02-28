@@ -17,7 +17,12 @@ RUN apt-get install -y nodejs
 WORKDIR /src
 COPY . /src
 RUN dotnet restore
-RUN dotnet build "software-engineering-devops-qa.csproj" -c Release -o /app/build
+RUN dotnet build -c Release -o /app/build
+
+FROM build as test
+WORKDIR /test
+COPY . /test
+RUN dotnet test
 
 FROM build as publish
 RUN dotnet publish "software-engineering-devops-qa.csproj" -c Release -o /app/publish
