@@ -31,3 +31,16 @@ jobs:
       with:
         push: true
         tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest,${{ secrets.DOCKERHUB_IMAGE }}:${{ steps.date.outputs.date }}
+    - name: Deploy Dev
+      run: |
+        curl -X POST \
+          -H "Authorization: Bearer ${{secrets.API_KEY}}" \
+          -H "Content-Type: application/json" \
+          "${{secrets.RENDER_HOOK}}"
+    - name: Deploy
+      if: github.ref == 'refs/heads/master'
+      run: |
+        curl -X POST \
+          -H "Authorization: Bearer ${{secrets.API_KEY}}" \
+          -H "Content-Type: application/json" \
+          "${{secrets.RENDER_HOOK}}"
