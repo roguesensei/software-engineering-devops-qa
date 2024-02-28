@@ -20,7 +20,7 @@ RUN dotnet restore
 RUN dotnet build -c Release -o /app/build
 
 FROM build as test
-RUN dotnet test
+RUN dotnet test "software-engineering-devops-qa.tests/software-engineering-devops-qa.tests.csproj"
 
 FROM test as publish
 RUN dotnet publish -c Release -o /app/publish
