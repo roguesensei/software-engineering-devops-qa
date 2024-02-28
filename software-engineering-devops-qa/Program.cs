@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using software_engineering_devops_qa.Dal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,13 @@ builder.Services
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthorization();
+
+Config.LmsDbConnection = builder.Configuration.GetConnectionString("LmsDb")!;
+
+// Initialise tables if not created
+CourseDal.Init();
+EnrolmentDal.Init();
+UserDal.Init();
 
 var app = builder.Build();
 
