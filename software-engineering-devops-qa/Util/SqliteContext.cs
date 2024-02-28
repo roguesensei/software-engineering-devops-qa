@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.Data.Sqlite;
 
 namespace software_engineering_devops_qa.Util;
@@ -9,13 +10,36 @@ public class SqliteContext(string connectionString) : IDisposable
 
 	public void Dispose()
 	{
-		connection.Close();
+		if (connection.State == ConnectionState.Open)
+		{
+			connection.Close();
+		}
+		connection.Dispose();
 	}
 
 	public int ExecuteNonQuery(string sqlCommand, params SqliteParameter[] parameters)
 	{
-		var command = CreateCommand(sqlCommand, parameters);
-		return command.ExecuteNonQuery();
+		return CreateCommand(sqlCommand, parameters).ExecuteNonQuery();
+	}
+
+	public IDataReader ExecuteReader(string sqlCommand, params SqliteParameter[] parameters)
+	{
+		return CreateCommand(sqlCommand, parameters).ExecuteReader();
+	}
+
+	public T? ReadFirst<T>(Func<IDataReader, T> instance, string sqlCommand, params SqliteParameter[] parameters)
+	{
+		using var reader = CreateCommand(sqlCommand, parameters).ExecuteReader();
+		if (reader.Read())
+		{
+			return instance(reader);
+		}
+		return default;
+	}
+
+	public int GetLastRowId()
+	{
+		return ReadFirst((dr) => (int)dr.GetDecimal(0), "select last_insert_rowid()");
 	}
 
 	private SqliteCommand CreateCommand(string sqlCommand, params SqliteParameter[] parameters)

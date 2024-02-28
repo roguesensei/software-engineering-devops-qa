@@ -32,9 +32,9 @@ builder.Services.AddAuthorization();
 Config.LmsDbConnection = builder.Configuration.GetConnectionString("LmsDb")!;
 
 // Initialise tables if not created
-CourseDal.Init();
-EnrolmentDal.Init();
-UserDal.Init();
+CourseDal.Init(Config.LmsDbConnection);
+EnrolmentDal.Init(Config.LmsDbConnection);
+UserDal.Init(Config.LmsDbConnection);
 
 var app = builder.Build();
 

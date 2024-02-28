@@ -11,5 +11,5 @@ public record User
 	public Role Role { get; init; }
 
 	[JsonIgnore]
-	public string? PasswordHash { get; set; }
+	public byte[]? PasswordHash { get; set; }
 }
