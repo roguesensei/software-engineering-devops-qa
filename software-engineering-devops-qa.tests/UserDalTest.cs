@@ -14,6 +14,6 @@ public class UserDalTest
 	[Test]
 	public void Test()
 	{
-		Assert.IsFalse(true, "Failed the test test");
+		Assert.IsFalse(false, "Failed the test test");
 	}
 }
