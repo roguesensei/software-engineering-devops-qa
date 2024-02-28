@@ -232,3 +232,6 @@ _Pvt_Extensions
 .fake/
 
 .vscode/
+
+# DB files
+*.db
