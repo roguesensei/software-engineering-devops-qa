@@ -31,6 +31,12 @@ public class LmsAuthentication
 	private static CurrentUser GetCurrentUser(int userId)
 	{
 		var user = new UserDal().GetById(Config.LmsDbConnection, userId)!;
-		return new() { UserId = user.UserId, Username = user.Username, Role = user.Role };
+		return new() 
+		{ 
+			UserId = user.UserId,
+			Username = user.Username,
+			Role = user.Role,
+			PasswordHash = user.PasswordHash
+		};
 	}
 }

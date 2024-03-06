@@ -14,9 +14,8 @@ public class AuthController : BaseController
 	{
 		var currObj = LmsAuthentication.GetUserByUsername(model.Username);
 
-		if (currObj != null)
+		if (currObj != null && currObj.ValidatePassword(model.Password))
 		{
-			// var identity = new ClaimsIdentity(currObj.GetClaims(), CookieAuthenticationDefaults.AuthenticationScheme);
 			var jwt = JwtUtil.CreateJwt(DateTime.Now.AddHours(1), currObj.GetClaims());
 
 			return Ok(jwt);
