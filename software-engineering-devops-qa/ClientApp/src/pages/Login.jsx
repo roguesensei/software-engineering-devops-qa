@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { auth, register } from '../store/auth';
 import { Alert, Button, Card, Divider, TextField } from '@mui/material';
 import { useNavigate } from 'react-router';
@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router';
 export default function Login() {
 	const [form, setForm] = useState({
 		username: '',
-		password: ''
+		password: '',
+		clientId: 'lms-client'
 	});
 	const [error, setError] = useState();
 	const navigate = useNavigate();
@@ -16,28 +17,32 @@ export default function Login() {
 		setError('');
 	}
 
-	useEffect(() => {
-		alert('Hello')
-	}, []);
+	// const promptLogin = useCallback(() => {
+	// 	toast('Please login to continue');
+	// }, [toast]);
+
+	// useEffect(() => {
+	// 	promptLogin();
+	// }, [promptLogin]);
 
 	return (
 		<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', background: '#313869', height: '100vh' }}>
-			<div style={{ marginLeft: '40vw', marginTop: '25vh' }}>
+			<div style={{ marginLeft: '25vw', marginTop: '25vh' }}>
 				<form onSubmit={async (e) => {
-					// e.preventDefault();
+					e.preventDefault();
 					// sessionStorage.clear();
 
-					// let res = await auth(form);
-					// if (res.ok) {
-					// 	let bod = await res.json();
-
-					// 	sessionStorage.setItem('jwt', bod['token']);
-					// 	navigate('/');
-					// }
-					// else {
-					// 	let err = await res.json();
-					// 	setError(err['error']);
-					// }
+					let res = await auth(form);
+					if (res.ok) {
+						let tok = await res.text();
+						sessionStorage.setItem('jwt', tok);
+						console.debug(tok);
+						navigate('/');
+					}
+					else {
+						let err = await res.text();
+						setError(err);
+					}
 
 				}}>
 					<Card elevation={3} sx={(theme) => ({ width: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: theme.spacing(2) })}>

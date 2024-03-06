@@ -1,8 +1,19 @@
 using System.Text;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using software_engineering_devops_qa;
 using software_engineering_devops_qa.Dal;
+
+// Check JWT secret is supplied and is a valid 256-bit string, else panic
+var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET_TOKEN");
+if (string.IsNullOrEmpty(jwtSecret))
+{
+    throw new ArgumentException("The environment variable $JWT_SECRET_TOKEN was not set");
+}
+else if (jwtSecret.Length < 32)
+{
+    throw new Exception("The supplied $JWT_SECRET_TOKEN was not greater than or equal to 256 bits (32 bytes)");
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +29,8 @@ builder.Services
     {
         x.TokenValidationParameters = new()
         {
-            ValidIssuer = "LMSAPI",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MY-VERY-SECURE-KEY")),
+            ValidIssuer = "LMS-API",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
             ValidateIssuer = true,
             ValidateAudience = false,
             ValidateIssuerSigningKey = true

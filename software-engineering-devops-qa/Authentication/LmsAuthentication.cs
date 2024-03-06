@@ -9,9 +9,9 @@ public class LmsAuthentication
 
 	public static ICurrentObject GetCurrent(int userId)
 	{
-		if (Users.ContainsKey(userId))
+		if (Users.TryGetValue(userId, out var user))
 		{
-			return Users[userId];
+			return user;
 		}
 
 		return GetCurrentUser(userId);
@@ -30,6 +30,7 @@ public class LmsAuthentication
 
 	private static CurrentUser GetCurrentUser(int userId)
 	{
-		return new() { UserId = userId, Username = "" };
+		var user = new UserDal().GetById(Config.LmsDbConnection, userId)!;
+		return new() { UserId = user.UserId, Username = user.Username, Role = user.Role };
 	}
 }

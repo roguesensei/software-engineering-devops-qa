@@ -27,6 +27,19 @@ public class SqliteContext(string connectionString) : IDisposable
 		return CreateCommand(sqlCommand, parameters).ExecuteReader();
 	}
 
+	public List<T> ReadAll<T>(Func<IDataReader, T> instance, string sqlCommand, params SqliteParameter[] parameters)
+	{
+		List<T> items = [];
+
+		using var reader = CreateCommand(sqlCommand, parameters).ExecuteReader();
+		while(reader.Read())
+		{
+			items.Add(instance(reader));
+		}
+
+		return items;		
+	}
+
 	public T? ReadFirst<T>(Func<IDataReader, T> instance, string sqlCommand, params SqliteParameter[] parameters)
 	{
 		using var reader = CreateCommand(sqlCommand, parameters).ExecuteReader();

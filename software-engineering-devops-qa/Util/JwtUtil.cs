@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Server.Kestrel;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,10 +8,11 @@ namespace software_engineering_devops_qa.Util;
 
 public static class JwtUtil
 {
-	private static readonly byte[] encryptionKey = Encoding.ASCII.GetBytes("MY-VERY-SECURE-SECRET-TOK");
-
 	public static string CreateJwt(DateTime expiresAt, IEnumerable<Claim> claims)
 	{
+		var secret = Environment.GetEnvironmentVariable("JWT_SECRET_TOKEN")!;
+		var encryptionKey = Encoding.UTF8.GetBytes(secret);
+
 		var tokenHandler = new JwtSecurityTokenHandler();
 		var key = new SymmetricSecurityKey(encryptionKey);
 		var tokenDescriptor = new SecurityTokenDescriptor
