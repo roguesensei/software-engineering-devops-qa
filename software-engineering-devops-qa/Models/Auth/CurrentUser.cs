@@ -20,7 +20,8 @@ public class CurrentUser : ICurrentObject
 	{
 		return
 		[
-			new("id", UserId.ToString())
+			new("id", UserId.ToString()),
+			new("role", ((int)Role).ToString())
 		];
 	}
 
