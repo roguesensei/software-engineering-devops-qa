@@ -16,7 +16,7 @@ export async function isAuthenticated() {
 }
 
 export async function auth(form) {
-	let res = await fetch('/auth/login', {
+	let res = await fetch('/api/auth/login', {
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json'

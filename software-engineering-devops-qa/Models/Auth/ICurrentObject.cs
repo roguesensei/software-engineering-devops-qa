@@ -10,5 +10,9 @@ public interface ICurrentObject
 
 	Role Role { get; set; }
 
+	byte[]? PasswordHash { get; set; }
+
 	List<Claim> GetClaims();
+
+	bool ValidatePassword(string password);
 }

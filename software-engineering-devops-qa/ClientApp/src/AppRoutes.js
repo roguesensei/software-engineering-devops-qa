@@ -9,7 +9,7 @@ const AppRoutes = [
   },
   {
     path: '/login',
-    element: <Login /> // https://blog.logrocket.com/authentication-react-router-v6/
+    element: <Login />
   },
   {
     path: '/fetch-data',

@@ -1,4 +1,6 @@
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using software_engineering_devops_qa.Models;
 using software_engineering_devops_qa.Util;
 
@@ -6,51 +8,46 @@ namespace software_engineering_devops_qa.Dal;
 
 public class UserDal : IDal<User>
 {
-	public static void Init(string dbConnection)
+	public static void Init(string dbConnection, string defaultAdminPassword)
 	{
 		using var sqlite = new SqliteContext(dbConnection);
 		sqlite.ExecuteNonQuery(initSql);
+
+		var adminUser = new UserDal().GetByUsername(dbConnection, "admin");
+		if (adminUser is null) // Create default admin if one doesn't exist
+		{
+			var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(defaultAdminPassword));
+
+			var newAdmin = new User
+			{
+				Username = "admin",
+				PasswordHash = passwordHash,
+				Role = Role.Admin
+			};
+
+			if (new UserDal().Add(dbConnection, newAdmin) == 0)
+			{
+				throw new Exception("Failed to create the admin user");
+			}
+		}
 	}
 
 	public List<User> Get(string dbConnection)
 	{
-		throw new NotImplementedException();
+		using var sqlite = new SqliteContext(dbConnection);
+		return sqlite.ReadAll(UserReader, getSql);
+	}
+
+	public User? GetById(string dbConnection, int userId)
+	{
+		using var sqlite = new SqliteContext(dbConnection);
+		return sqlite.ReadFirst(UserReader, $"{getSql} WHERE u.user_id = $user_id", [new("$user_id", userId)]);
 	}
 
 	public User? GetByUsername(string dbConnection, string username)
 	{
 		using var sqlite = new SqliteContext(dbConnection);
-		return sqlite.ReadFirst(UserReader, $"{getSql} WHERE u.username = $username", [
-			new("$username", username)
-		]);
-
-		// using (var connection = new SqliteConnection(Config.LmsDbConnection))
-		// {
-		// 	connection.Open();
-
-		// 	var command = connection.CreateCommand();
-		// 	command.CommandText = $"{getSql} WHERE u.username = $username";
-		// 	command.Parameters.AddWithValue("$username", username);
-
-		// 	using (var reader = command.ExecuteReader())
-		// 	{
-		// 		while(reader.Read())
-		// 		{
-		// 			var i = -1;
-		// 			var user = new User()
-		// 			{
-		// 				UserId = reader.GetInt32(++i),
-		// 				Username = reader.GetString(++i),
-		// 				PasswordHash = reader.GetString(++i),
-		// 				Role = (Role)reader.GetInt32(++i)
-		// 			};
-
-		// 			return user;
-		// 		}
-		// 	}
-		// }
-
-		// return null;
+		return sqlite.ReadFirst(UserReader, $"{getSql} WHERE u.username = $username", [new("$username", username)]);
 	}
 
 	public int Add(string dbConnection, User model)
@@ -72,8 +69,8 @@ public class UserDal : IDal<User>
 		{
 			UserId = dr.GetInt32(++i),
 			Username = dr.GetString(++i),
-			//PasswordHash = dr.GetByte(++i),
-			Role = (Role)dr.GetInt32(++i)
+			Role = (Role)dr.GetInt32(++i),
+			PasswordHash = (byte[])dr.GetValue(++i)
 		};
 
 		return user;
