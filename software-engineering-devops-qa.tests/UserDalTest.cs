@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Text;
 using NUnit.Framework;
 using software_engineering_devops_qa.Dal;
@@ -14,12 +15,18 @@ public class UserDalTest
 	[SetUp]
 	public void SetUp()
 	{
-		UserDal.Init(dbConnection);
+		UserDal.Init(dbConnection, "Test1234!");
 
 		var user = new User { Username = Guid.NewGuid().ToString(), PasswordHash = Encoding.UTF8.GetBytes("TEST") };
 		user.UserId = new UserDal().Add(dbConnection, user);
 
 		TestUser = user;
+	}
+
+	[Test]
+	public void Admin_Exists()
+	{
+		Assert.IsNotNull(new UserDal().GetByUsername(dbConnection, "admin"));
 	}
 
 	[Test]

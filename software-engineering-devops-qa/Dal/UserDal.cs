@@ -8,7 +8,7 @@ namespace software_engineering_devops_qa.Dal;
 
 public class UserDal : IDal<User>
 {
-	public static void Init(string dbConnection)
+	public static void Init(string dbConnection, string defaultAdminPassword)
 	{
 		using var sqlite = new SqliteContext(dbConnection);
 		sqlite.ExecuteNonQuery(initSql);
@@ -16,12 +16,7 @@ public class UserDal : IDal<User>
 		var adminUser = new UserDal().GetByUsername(dbConnection, "admin");
 		if (adminUser is null) // Create default admin if one doesn't exist
 		{
-			var adminPassword = Environment.GetEnvironmentVariable("ADMIN_DEFAULT_PASSWORD");
-			if (string.IsNullOrEmpty(adminPassword))
-			{
-				throw new ArgumentException("The environment variable $ADMIN_DEFAULT_PASSWORD was not set");
-			}
-			var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(adminPassword));
+			var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(defaultAdminPassword));
 
 			var newAdmin = new User
 			{
