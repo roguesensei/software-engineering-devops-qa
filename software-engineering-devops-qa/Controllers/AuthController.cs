@@ -10,7 +10,7 @@ namespace software_engineering_devops_qa.Controllers;
 public class AuthController : BaseController
 {
 	[HttpPost("login")]
-	public async Task<IActionResult> Login([FromBody] LoginModel model)
+	public IActionResult Login([FromBody] LoginModel model)
 	{
 		var currObj = LmsAuthentication.GetUserByUsername(model.Username);
 
