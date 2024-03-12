@@ -6,28 +6,24 @@ using software_engineering_devops_qa.Dal;
 using software_engineering_devops_qa.Models;
 using software_engineering_devops_qa.Util;
 
+var jwtEnvName = "JWT_SECRET_TOKEN";
+var pwdEnvName = "ADMIN_DEFAULT_PASSWORD";
+
 // Check JWT secret is supplied and is a valid 256-bit string, else panic
-var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET_TOKEN");
-if (string.IsNullOrEmpty(jwtSecret))
-{
-	throw new ArgumentException("The environment variable $JWT_SECRET_TOKEN was not set");
-}
-else if (jwtSecret.Length < 32)
+var jwtSecret = Environment.GetEnvironmentVariable(jwtEnvName)
+	.ExpectValue($"The envrionment variable ${jwtEnvName} was not set");
+if (jwtSecret.Length < 32)
 {
 	throw new Exception("The supplied $JWT_SECRET_TOKEN was not greater than or equal to 256 bits (32 bytes)");
 }
 
 // Check default admin password is set
-var adminPassword = Environment.GetEnvironmentVariable("ADMIN_DEFAULT_PASSWORD");
-if (string.IsNullOrEmpty(adminPassword))
-{
-	throw new ArgumentException("The environment variable $ADMIN_DEFAULT_PASSWORD was not set");
-}
+var adminPassword = Environment.GetEnvironmentVariable(pwdEnvName)
+	.ExpectValue($"The environment variable ${pwdEnvName} was not set");
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-
 builder.Services
 	.AddAuthentication(x =>
 	{
