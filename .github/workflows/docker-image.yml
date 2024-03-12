@@ -30,6 +30,7 @@ jobs:
         tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest,${{ secrets.DOCKERHUB_IMAGE }}:${{ steps.date.outputs.date }}
 
   deployment:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Deploy Dev
