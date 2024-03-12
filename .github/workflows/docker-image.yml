@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image Build + Deploy
 
 on:
   push:
@@ -7,11 +7,8 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Get current date
       id: date
@@ -31,6 +28,11 @@ jobs:
       with:
         push: true
         tags: ${{ secrets.DOCKERHUB_IMAGE }}:latest,${{ secrets.DOCKERHUB_IMAGE }}:${{ steps.date.outputs.date }}
+
+  deployment:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Deploy Dev
       if: github.ref != 'refs/heads/master'
       run: |
