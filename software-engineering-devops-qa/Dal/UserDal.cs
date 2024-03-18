@@ -76,6 +76,21 @@ public class UserDal : IDal<User>
 		return user;
 	}
 
+	public bool Update(string dbConnection, User model)
+	{
+		using var sqlite = new SqliteContext(dbConnection);
+		return sqlite.ExecuteNonQuery(updateSql, [
+			new("$id", model.UserId),
+			new("$role", model.Role)
+		]) > 0;
+	}
+
+	public bool Delete(string dbConnection, int id)
+	{
+		using var sqlite = new SqliteContext(dbConnection);
+		return sqlite.ExecuteNonQuery(deleteSql, [new("$id", id)]) > 0;
+	}
+
 	private static readonly string initSql = @"
 CREATE TABLE IF NOT EXISTS user
 (
@@ -83,8 +98,7 @@ CREATE TABLE IF NOT EXISTS user
 	username VARCHAR(50) NOT NULL,
 	password_hash BLOB NOT NULL,
 	role INTEGER NOT NULL DEFAULT(0)
-)
-";
+)";
 
 	private static readonly string getSql = @"
 SELECT
@@ -92,11 +106,21 @@ SELECT
 	u.username,
 	u.role,
 	u.password_hash
-FROM user u
-	";
+FROM user u";
 
 	private static readonly string addSql = @"
-	INSERT INTO user (username, password_hash, role)
-	VALUES ($username, $password_hash, $role)
-	";
+INSERT INTO user (username, password_hash, role)
+VALUES ($username, $password_hash, $role)";
+
+	private static readonly string updateSql = @"
+UPDATE user
+SET
+	role = $role
+WHERE user_id = $id
+";
+
+	private static readonly string deleteSql = @"
+DELETE FROM user
+WHERE user_id = $id
+";
 }
