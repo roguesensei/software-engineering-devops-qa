@@ -36,15 +36,15 @@ builder.Services
 		{
 			ValidIssuer = "LMS-API",
 			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
-			ValidateIssuer = true,
+			ValidateIssuer = false,
 			ValidateAudience = false,
-			ValidateIssuerSigningKey = true
+			ValidateIssuerSigningKey = false
 		};
 	});
 
 builder.Services.AddAuthorizationBuilder()
-	.AddPolicy(Idenity.AdminPolicy, p =>
-		p.RequireClaim("role", ((int)Role.Admin).ToString()));
+	.AddPolicy(Idenity.adminPolicy, p =>
+		p.RequireClaim(Idenity.roleClaimName, ((int)Role.Admin).ToString()));
 
 builder.Services.AddControllersWithViews();
 

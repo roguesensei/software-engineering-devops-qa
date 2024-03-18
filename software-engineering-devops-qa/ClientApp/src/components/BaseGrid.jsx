@@ -9,12 +9,13 @@ export default function BaseGrid({ columns, rows, getRowId, onAdd }) {
 			columns={columns}
 			rows={rows}
 			getRowId={getRowId}
-			slots={{toolbar: () => <GridToolbar onAdd={onAdd} />}}
+			style={{ height: '75vh' }}
+			slots={{ toolbar: () => <GridToolbar onAdd={onAdd} /> }}
 		/>
 	);
 }
 
-export function EditAction({onClick = () => {}}) {
+export function EditAction({ onClick = () => { } }) {
 	return (
 		<GridActionsCellItem
 			icon={<Edit />}
@@ -25,7 +26,7 @@ export function EditAction({onClick = () => {}}) {
 	)
 }
 
-export function DeleteAction({onClick = () => {}}) {
+export function DeleteAction({ onClick = () => { } }) {
 	return (
 		<GridActionsCellItem
 			icon={<Delete />}
@@ -36,11 +37,11 @@ export function DeleteAction({onClick = () => {}}) {
 	)
 }
 
-function GridToolbar({ onAdd  }) {
+function GridToolbar({ onAdd }) {
 	return (
 		<GridToolbarContainer>
 			{
-				onAdd ? 
+				onAdd ?
 					<AddRowButton onClick={onAdd} /> : null
 			}
 			<GridToolbarExport />
@@ -48,16 +49,16 @@ function GridToolbar({ onAdd  }) {
 	);
 }
 
-function AddRowButton({ onClick = () => {} }) {
+function AddRowButton({ onClick = () => { } }) {
 	return (
-	<Button
-		size='small'
-		aria-label={'Add Row'}
-		title={'Add Row'}
-		startIcon={<Add />}
-		onClick={onClick}
-	>
-		Add Row
-	</Button>
+		<Button
+			size='small'
+			aria-label={'Add Row'}
+			title={'Add Row'}
+			startIcon={<Add />}
+			onClick={onClick}
+		>
+			Add Row
+		</Button>
 	);
 }

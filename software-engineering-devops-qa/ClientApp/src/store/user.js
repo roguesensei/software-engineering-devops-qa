@@ -2,13 +2,13 @@ import { httpGet, httpPost } from '../util/request';
 
 export const userRoles = {
 	'Guest': 0,
-	'Admin': 1 
+	'Admin': 1
 };
 
-export const userRoleOpt = Object.keys(userRoles).map((x) => ({label: x, value: userRoles[x]}));
+export const userRoleOpt = Object.keys(userRoles).map((x) => ({ label: x, value: userRoles[x] }));
 
 export async function loadUsers() {
-	let res = await httpGet('/user/get');
+	let res = await httpGet('/api/user/get');
 
 	if (res.ok) {
 		return await res.json();

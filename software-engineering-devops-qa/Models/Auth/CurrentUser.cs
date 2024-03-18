@@ -1,3 +1,4 @@
+using software_engineering_devops_qa.Util;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -21,7 +22,7 @@ public class CurrentUser : ICurrentObject
 		return
 		[
 			new("id", UserId.ToString()),
-			new("role", ((int)Role).ToString())
+			new(Idenity.roleClaimName, ((int)Role).ToString()),
 		];
 	}
 
