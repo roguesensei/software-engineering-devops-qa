@@ -1,6 +1,7 @@
-import { FetchData } from './components/FetchData';
+import Course from './pages/Course';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import User from './pages/User';
 
 const AppRoutes = [
   {
@@ -12,8 +13,12 @@ const AppRoutes = [
     element: <Login />
   },
   {
-    path: '/fetch-data',
-    element: <FetchData />
+    path: '/courses',
+    element: <Course />
+  },
+  {
+    path: '/users',
+    element: <User />
   }
 ];
 

@@ -1,56 +1,47 @@
-import BaseDrawer from './BaseDrawer';
-import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { Logout, Person, School, Subscriptions } from '@mui/icons-material';
+import React, { Component } from 'react';
+import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import './NavMenu.css';
 
-export default function NavMenu({ open, onClose }){
-	return (
-		<header>
-			<BaseDrawer
-				title={'LMS'}
-				anchor={'left'}
-				open={open}
-				onClose={onClose}
-				showAction={false}
-			>
-				<NavMenuItem text={'Enrolments'} Icon={Subscriptions} open={open} onClick={() => {
-					window.location.href = '/enrolments';
-					onClose();
-				}} />
-				<NavMenuItem text={'Courses'} Icon={School} open={open} onClick={() => {
-					window.location.href = '/courses';
-					onClose();
-				}} />
-				<NavMenuItem text={'Users'} Icon={Person} open={open} onClick={() => {
-					window.location.href = '/users';
-					onClose();
-				}} />
-				<NavMenuItem text={'Log out'} Icon={Logout} open={open} onClick={() => {
-					sessionStorage.clear();
-					window.location.href = '/';
-				}} />
-			</BaseDrawer>
-		</header>
-	)
-}
+export class NavMenu extends Component {
+  static displayName = NavMenu.name;
 
-function NavMenuItem({ open, onClick, text, Icon }) {
-	return (
-		<ListItem disablePadding onClick={onClick}>
-			<ListItemButton sx={{
-				minHeight: 48,
-				justifyContent: open ? 'initial' : 'center',
-				paddingLeft: 2.5,
-				paddingRight: 2.5,
-			}}>
-				<ListItemIcon sx={{
-					minWidth: 0,
-					marginRight: open ? 3 : 'auto',
-					justifyContent: 'center',
-				}}>
-					<Icon />
-				</ListItemIcon>
-				<ListItemText primary={text} />
-			</ListItemButton>
-		</ListItem >
-	);
+  constructor(props) {
+    super(props);
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.state = {
+      collapsed: true
+    };
+  }
+
+  toggleNavbar() {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  }
+
+  render() {
+    return (
+      <header>
+        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" container light>
+          <NavbarBrand tag={Link} to="/">LMS</NavbarBrand>
+          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
+          <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
+            <ul className="navbar-nav flex-grow">
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/courses">Courses</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/users">Users</NavLink>
+              </NavItem>
+            </ul>
+          </Collapse>
+        </Navbar>
+      </header>
+    );
+  }
 }

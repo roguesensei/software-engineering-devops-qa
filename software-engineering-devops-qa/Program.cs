@@ -43,12 +43,14 @@ builder.Services
 	});
 
 builder.Services.AddAuthorizationBuilder()
-	.AddPolicy(Idenity.AdminPolicy, p =>
-		p.RequireClaim("role", ((int)Role.Admin).ToString()));
+	.AddPolicy(Idenity.adminPolicy, p =>
+		p.RequireClaim(Idenity.roleClaimName, ((int)Role.Admin).ToString()));
 
 builder.Services.AddControllersWithViews();
 
+// App configuration
 Config.LmsDbConnection = builder.Configuration.GetConnectionString("LmsDb").ExpectValue("LmsDb connection string not supplied");
+Config.HttpResponseHeaders = builder.Configuration.GetRequiredSection("HttpResponseHeaders").GetChildren().ToDictionary(x => x.Key, x => x.Value)!;
 
 // Initialise tables if not created
 CourseDal.Init(Config.LmsDbConnection);
@@ -70,6 +72,16 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Apply security headers
+app.Use(async (context, next) =>
+{
+	foreach (var kvp in Config.HttpResponseHeaders)
+	{
+		context.Response.Headers[kvp.Key] = kvp.Value;
+	}
+	await next();
+});
 
 app.MapControllerRoute(
 	name: "default",

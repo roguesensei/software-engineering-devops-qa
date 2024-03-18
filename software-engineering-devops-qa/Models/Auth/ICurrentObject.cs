@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace software_engineering_devops_qa.Models.Auth;
 
@@ -10,6 +11,7 @@ public interface ICurrentObject
 
 	Role Role { get; set; }
 
+	[JsonIgnore]
 	byte[]? PasswordHash { get; set; }
 
 	List<Claim> GetClaims();

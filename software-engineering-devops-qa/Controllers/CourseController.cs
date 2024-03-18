@@ -5,25 +5,24 @@ using software_engineering_devops_qa.Models;
 
 namespace software_engineering_devops_qa.Controllers;
 
-public class EnrolmentController : BaseController
+public class CourseController : BaseController
 {
 	[HttpGet("get")]
-	public IActionResult Get() => Ok(new EnrolmentDal()
+	public IActionResult Get() => Ok(new CourseDal()
 		.Get(Config.LmsDbConnection));
-
 
 	[AdminOnly]
 	[HttpPost("add")]
-	public IActionResult Add([FromBody] Enrolment model) => Ok(new EnrolmentDal()
+	public IActionResult Add([FromBody] Course model) => Ok(new CourseDal()
 		.Add(Config.LmsDbConnection, model));
 
 	[AdminOnly]
 	[HttpPost("update")]
-	public IActionResult Update([FromBody] Enrolment model) => Ok(new EnrolmentDal()
+	public IActionResult Update([FromBody] Course model) => Ok(new CourseDal()
 		.Update(Config.LmsDbConnection, model));
 
 	[AdminOnly]
 	[HttpPost("delete")]
-	public IActionResult Delete([FromBody] int id) => Ok(new EnrolmentDal()
+	public IActionResult Delete([FromBody] int id) => Ok(new CourseDal()
 		.Delete(Config.LmsDbConnection, id));
 }
