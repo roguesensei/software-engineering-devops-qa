@@ -17,14 +17,6 @@ export default function Login() {
 		setError('');
 	}
 
-	// const promptLogin = useCallback(() => {
-	// 	toast('Please login to continue');
-	// }, [toast]);
-
-	// useEffect(() => {
-	// 	promptLogin();
-	// }, [promptLogin]);
-
 	return (
 		<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', background: '#313869', height: '100vh' }}>
 			<div style={{ marginLeft: '25vw', marginTop: '25vh' }}>

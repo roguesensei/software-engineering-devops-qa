@@ -1,6 +1,8 @@
 using software_engineering_devops_qa.Dal;
 using software_engineering_devops_qa.Models;
 
+namespace software_engineering_devops_qa.Tests;
+
 [TestFixture]
 public class CourseDalTest
 {
