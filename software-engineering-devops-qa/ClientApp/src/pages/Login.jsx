@@ -25,7 +25,7 @@ export default function Login() {
 					let res = await auth(form);
 					if (res.ok) {
 						let tok = await res.text();
-						sessionStorage.setItem('jwt', tok);
+						localStorage.setItem('jwt', tok);
 						navigate('/');
 					}
 					else {
@@ -70,7 +70,7 @@ export default function Login() {
 									let res = await register(form);
 									if (res.ok) {
 										let tok = await res.text();
-										sessionStorage.setItem('jwt', tok);
+										localStorage.setItem('jwt', tok);
 										navigate('/');
 									}
 									else {

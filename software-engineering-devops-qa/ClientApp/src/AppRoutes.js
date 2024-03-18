@@ -5,6 +5,7 @@ import User from './pages/User';
 
 const AppRoutes = [
   {
+    path: '*',
     index: true,
     element: <Home />
   },
