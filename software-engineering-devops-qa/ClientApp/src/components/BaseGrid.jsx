@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton, GridToolbarDensitySelector } from '@mui/x-data-grid';
 import { Button } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 
@@ -40,11 +40,13 @@ export function DeleteAction({ onClick = () => { } }) {
 function GridToolbar({ onAdd }) {
 	return (
 		<GridToolbarContainer>
+			<GridToolbarColumnsButton />
+			<GridToolbarFilterButton />
+			<GridToolbarDensitySelector />
 			{
 				onAdd ?
 					<AddRowButton onClick={onAdd} /> : null
 			}
-			<GridToolbarExport />
 		</GridToolbarContainer>
 	);
 }

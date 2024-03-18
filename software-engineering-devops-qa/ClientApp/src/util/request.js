@@ -6,7 +6,15 @@ export async function httpGet(url) {
 	return respondOrRedirectIfUnauthorized(res);
 }
 
-export async function httpPost(url, body = {}) { }
+export async function httpPost(url, body = {}) {
+	let res = await fetch(url, {
+		method: 'POST',
+		headers: getHeaders(),
+		body: JSON.stringify(body)
+	});
+
+	return respondOrRedirectIfUnauthorized(res);
+}
 
 function respondOrRedirectIfUnauthorized(res) {
 	if (res.status === 401) {
@@ -20,6 +28,7 @@ function getHeaders() {
 	let bearer = sessionStorage.getItem('jwt');
 
 	return {
-		'Authorization': `Bearer ${bearer}`
+		'Authorization': `Bearer ${bearer}`,
+		'content-type': 'application/json'
 	}
 }
