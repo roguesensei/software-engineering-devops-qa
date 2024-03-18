@@ -22,7 +22,7 @@ export async function auth(form) {
 }
 
 export async function register(form) {
-	let res = await fetch('/register', {
+	let res = await fetch('/api/auth/register', {
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json'

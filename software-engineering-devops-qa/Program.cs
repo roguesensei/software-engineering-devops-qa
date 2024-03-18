@@ -21,6 +21,11 @@ if (jwtSecret.Length < 32)
 var adminPassword = Environment.GetEnvironmentVariable(pwdEnvName)
 	.ExpectValue($"The environment variable ${pwdEnvName} was not set");
 
+if (!PasswordUtil.FitsPasswordPolicy(adminPassword))
+{
+	throw new InvalidDataException($"Admin password does not satisfy the password policy.\n\t{PasswordUtil.passwordPolicyError}");
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container

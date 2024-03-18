@@ -2,7 +2,7 @@ namespace software_engineering_devops_qa.Util;
 
 public static class NullableUtil
 {
-	public static T ExpectValue<T>(this T? value, string errorMessage)
+	public static T ExpectValue<T>(this T? value, string errorMessage = "Value was null")
 		where T : struct
 	{
 		if (!value.HasValue)
@@ -13,7 +13,7 @@ public static class NullableUtil
 		return value.Value;
 	}
 
-	public static T ExpectValue<T>(this T? value, string errorMessage)
+	public static T ExpectValue<T>(this T? value, string errorMessage = "Value was null")
 		where T : class
 	{
 		if (value is null)
@@ -24,7 +24,7 @@ public static class NullableUtil
 		return value;
 	}
 
-	public static string ExpectValue(this string? value, string errorMessage)
+	public static string ExpectValue(this string? value, string errorMessage = "Value was null")
 	{
 		if (string.IsNullOrEmpty(value))
 		{

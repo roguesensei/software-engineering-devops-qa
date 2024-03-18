@@ -17,26 +17,15 @@ export default function Login() {
 		setError('');
 	}
 
-	// const promptLogin = useCallback(() => {
-	// 	toast('Please login to continue');
-	// }, [toast]);
-
-	// useEffect(() => {
-	// 	promptLogin();
-	// }, [promptLogin]);
-
 	return (
 		<div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', background: '#313869', height: '100vh' }}>
 			<div style={{ marginLeft: '25vw', marginTop: '25vh' }}>
 				<form onSubmit={async (e) => {
 					e.preventDefault();
-					// sessionStorage.clear();
-
 					let res = await auth(form);
 					if (res.ok) {
 						let tok = await res.text();
 						sessionStorage.setItem('jwt', tok);
-						console.debug(tok);
 						navigate('/');
 					}
 					else {
@@ -77,18 +66,16 @@ export default function Login() {
 						<Button
 							sx={(theme) => ({ marginTop: theme.spacing(2), width: '100%' })}
 							onClick={() => {
-								sessionStorage.clear();
 								(async () => {
 									let res = await register(form);
 									if (res.ok) {
-										let bod = await res.json();
-
-										sessionStorage.setItem('jwt', bod['token']);
+										let tok = await res.text();
+										sessionStorage.setItem('jwt', tok);
 										navigate('/');
 									}
 									else {
-										let err = await res.json();
-										setError(err['error']);
+										let err = await res.text();
+										setError(err);
 									}
 								})();
 

@@ -33,7 +33,7 @@ public class CurrentUser : ICurrentObject
 			return false;
 		}
 
-		var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(password));
+		var passwordHash = PasswordUtil.HashPassword(password);
 
 		return Encoding.UTF8.GetString(passwordHash) == Encoding.UTF8.GetString(PasswordHash);
 	}
