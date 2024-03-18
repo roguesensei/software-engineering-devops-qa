@@ -1,6 +1,6 @@
 using software_engineering_devops_qa.Util;
 
-namespace software_engineering_devops_qa.Tests;
+namespace software_engineering_devops_qa.Tests.Util;
 
 [TestFixture]
 public class PasswordUtilTest

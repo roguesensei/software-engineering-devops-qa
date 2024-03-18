@@ -5,7 +5,7 @@ namespace software_engineering_devops_qa.Authentication;
 
 public class LmsAuthentication
 {
-	private static Dictionary<int, ICurrentObject> Users { get; set; } = new();
+	private static Dictionary<int, ICurrentObject> Users { get; set; } = [];
 
 	public static ICurrentObject GetCurrent(int userId)
 	{
@@ -31,8 +31,8 @@ public class LmsAuthentication
 	private static CurrentUser GetCurrentUser(int userId)
 	{
 		var user = new UserDal().GetById(Config.LmsDbConnection, userId)!;
-		return new() 
-		{ 
+		return new()
+		{
 			UserId = user.UserId,
 			Username = user.Username,
 			Role = user.Role,

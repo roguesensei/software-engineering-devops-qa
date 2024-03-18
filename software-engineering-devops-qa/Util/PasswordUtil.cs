@@ -1,14 +1,12 @@
+using System.Security.Cryptography;
+using System.Text;
+
 namespace software_engineering_devops_qa.Util;
 
 public static class PasswordUtil
 {
-	public static readonly string passwordPolicyError = @$"Passwords must:
-Be at least {minLength} characters long
-Have at least one upper case letter
-Have at least one lower case letter
-Have at least one special character
-Have at least one digit
-";
+	public static readonly string passwordPolicyError = $"Passwords must be at least {minLength} characters with at least one upper, lower, special and digit chracter";
+
 	public static bool FitsPasswordPolicy(string password)
 	{
 		if (password.Length < minLength)
@@ -43,6 +41,8 @@ Have at least one digit
 
 		return hasLowerCaseChar && hasUpperCaseChar && hasSpecialChar && hasDigitChar;
 	}
+
+	public static byte[] HashPassword(string password) => SHA256.HashData(Encoding.UTF8.GetBytes(password));
 
 	private const int minLength = 8;
 }

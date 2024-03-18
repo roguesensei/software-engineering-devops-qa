@@ -3,7 +3,7 @@ using System.Text;
 using software_engineering_devops_qa.Dal;
 using software_engineering_devops_qa.Models;
 
-namespace software_engineering_devops_qa.Tests;
+namespace software_engineering_devops_qa.Tests.DAL;
 
 [TestFixture]
 public class UserDalTest

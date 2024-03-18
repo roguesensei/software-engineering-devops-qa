@@ -1,6 +1,4 @@
 using System.Data;
-using System.Security.Cryptography;
-using System.Text;
 using software_engineering_devops_qa.Models;
 using software_engineering_devops_qa.Util;
 
@@ -16,7 +14,7 @@ public class UserDal : IDal<User>
 		var adminUser = new UserDal().GetByUsername(dbConnection, "admin");
 		if (adminUser is null) // Create default admin if one doesn't exist
 		{
-			var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(defaultAdminPassword));
+			var passwordHash = PasswordUtil.HashPassword(defaultAdminPassword);
 
 			var newAdmin = new User
 			{

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using software_engineering_devops_qa.Authentication;
 using software_engineering_devops_qa.Dal;
+using software_engineering_devops_qa.Models;
 using software_engineering_devops_qa.Models.PostModels;
 using software_engineering_devops_qa.Util;
 
@@ -36,6 +37,22 @@ public class AuthController : BaseController
 			return BadRequest(PasswordUtil.passwordPolicyError);
 		}
 
-		return Ok();
+		var newUser = new User
+		{
+			Username = model.Username,
+			PasswordHash = PasswordUtil.HashPassword(model.Password)
+		};
+
+		if (new UserDal().Add(Config.LmsDbConnection, newUser) != 0)
+		{
+			var currObj = LmsAuthentication.GetUserByUsername(model.Username);
+			if (currObj != null)
+			{
+				var jwt = JwtUtil.CreateJwt(DateTime.Now.AddHours(1), currObj.GetClaims());
+				return Ok(jwt);
+			}
+		}
+
+		return Unauthorized("User could not be created, please try again");
 	}
 }
