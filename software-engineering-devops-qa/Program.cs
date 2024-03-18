@@ -48,7 +48,7 @@ builder.Services.AddAuthorizationBuilder()
 
 builder.Services.AddControllersWithViews();
 
-Config.LmsDbConnection = builder.Configuration.GetConnectionString("LmsDb")!;
+Config.LmsDbConnection = builder.Configuration.GetConnectionString("LmsDb").ExpectValue("LmsDb connection string not supplied");
 
 // Initialise tables if not created
 CourseDal.Init(Config.LmsDbConnection);

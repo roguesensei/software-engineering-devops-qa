@@ -7,4 +7,8 @@ public interface IDal<T>
 	List<T> Get(string dbConnection);
 
 	int Add(string dbConnection, T model);
+
+	bool Update(string dbConnection, T model);
+
+	bool Delete(string dbConnection, int id);
 }
