@@ -36,9 +36,9 @@ builder.Services
 		{
 			ValidIssuer = "LMS-API",
 			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
-			ValidateIssuer = false,
+			ValidateIssuer = true,
 			ValidateAudience = false,
-			ValidateIssuerSigningKey = false
+			ValidateIssuerSigningKey = true
 		};
 	});
 
