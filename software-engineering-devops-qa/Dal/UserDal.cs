@@ -30,7 +30,7 @@ public class UserDal : IDal<User>
 		}
 	}
 
-	public List<User> Get(string dbConnection, int _, Role role)
+	public List<User> Get(string dbConnection, int _u, Role role)
 	{
 		using var sqlite = new SqliteContext(dbConnection);
 		return sqlite.ReadAll(UserReader, $"{getSql} WHERE u.role = 1 OR $role = 1", [

@@ -46,7 +46,7 @@ public class CourseDalTest
 		};
 		dal.Update(dbConnection, course);
 
-		var compare = dal.Get(dbConnection).FirstOrDefault(x => x.CourseId == course.CourseId);
+		var compare = dal.Get(dbConnection, 0, Role.Admin).FirstOrDefault(x => x.CourseId == course.CourseId);
 
 		Assert.That(course.Name, Is.EqualTo(compare?.Name), "Course was not updated, the name comparison failed");
 	}

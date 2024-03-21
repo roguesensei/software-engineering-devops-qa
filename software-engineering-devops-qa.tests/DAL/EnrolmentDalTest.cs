@@ -48,7 +48,7 @@ public class EnrolmentDalTest
 		};
 		dal.Update(dbConnection, enrolment);
 
-		var compare = dal.Get(dbConnection).FirstOrDefault(x => x.EnrolmentId == enrolment.EnrolmentId);
+		var compare = dal.Get(dbConnection, 0, Role.Admin).FirstOrDefault(x => x.EnrolmentId == enrolment.EnrolmentId);
 		Assert.That(enrolment.CourseDate, Is.EqualTo(compare?.CourseDate), "Enrolment was not updated, the name comparison failed");
 	}
 
