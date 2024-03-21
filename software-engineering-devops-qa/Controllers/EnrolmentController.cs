@@ -9,7 +9,7 @@ public class EnrolmentController : BaseController
 {
 	[HttpGet("get")]
 	public IActionResult Get() => Ok(new EnrolmentDal()
-		.Get(Config.LmsDbConnection));
+		.Get(Config.LmsDbConnection, CurrentObject!.UserId, CurrentObject.Role));
 
 
 	[AdminOnly]

@@ -12,7 +12,7 @@ public class CourseDal : IDal<Course>
 		sqlite.ExecuteNonQuery(initSql);
 	}
 
-	public List<Course> Get(string dbConnection)
+	public List<Course> Get(string dbConnection, int _u, Role _r)
 	{
 		using var sqlite = new SqliteContext(dbConnection);
 		return sqlite.ReadAll(CourseReader, getSql);
