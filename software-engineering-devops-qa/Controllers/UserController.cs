@@ -6,5 +6,5 @@ namespace software_engineering_devops_qa.Controllers;
 public class UserController : BaseController
 {
 	[HttpGet("get")]
-	public IActionResult Get() => Ok(new UserDal().Get(Config.LmsDbConnection));
+	public IActionResult Get() => Ok(new UserDal().Get(Config.LmsDbConnection, CurrentObject!.UserId, CurrentObject.Role));
 }

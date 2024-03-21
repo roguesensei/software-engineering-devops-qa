@@ -12,10 +12,13 @@ public class EnrolmentDal : IDal<Enrolment>
 		sqlite.ExecuteNonQuery(initSql);
 	}
 
-	public List<Enrolment> Get(string dbConnection)
+	public List<Enrolment> Get(string dbConnection, int userId, Role userRole)
 	{
 		using var sqlite = new SqliteContext(dbConnection);
-		return sqlite.ReadAll(EnrolmentReader, getSql);
+		return sqlite.ReadAll(EnrolmentReader, getSql, [
+			new("$user_id", userId),
+			new("$role", (int)userRole)
+		]);
 	}
 
 	public int Add(string dbConnection, Enrolment model)
@@ -77,6 +80,7 @@ SELECT
 	e.user_id,
 	e.course_date
 FROM enrolment e
+WHERE e.user_id = $user_id OR $role = 1
 ";
 
 	private static readonly string addSql = @"

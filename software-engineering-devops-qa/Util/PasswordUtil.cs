@@ -5,7 +5,7 @@ namespace software_engineering_devops_qa.Util;
 
 public static class PasswordUtil
 {
-	public static readonly string passwordPolicyError = $"Passwords must be at least {minLength} characters with at least one upper, lower, special and digit chracter";
+	public static readonly string passwordPolicyError = $"Passwords must be at least {minLength} characters with at least one upper, lower, special and digit character";
 
 	public static bool FitsPasswordPolicy(string password)
 	{

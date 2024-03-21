@@ -9,7 +9,7 @@ public class CourseController : BaseController
 {
 	[HttpGet("get")]
 	public IActionResult Get() => Ok(new CourseDal()
-		.Get(Config.LmsDbConnection));
+		.Get(Config.LmsDbConnection, CurrentObject!.UserId, CurrentObject.Role));
 
 	[AdminOnly]
 	[HttpPost("add")]

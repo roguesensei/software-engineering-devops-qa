@@ -16,6 +16,11 @@ export async function httpPost(url, body = {}) {
 	return respondOrRedirectIfUnauthorized(res);
 }
 
+export function logout() {
+	localStorage.clear();
+	window.locaction.href = '/login';
+}
+
 function respondOrRedirectIfUnauthorized(res) {
 	if (res.status === 401) {
 		window.location.href = '/login';
@@ -25,7 +30,7 @@ function respondOrRedirectIfUnauthorized(res) {
 }
 
 function getHeaders() {
-	let bearer = sessionStorage.getItem('jwt');
+	let bearer = localStorage.getItem('jwt');
 
 	return {
 		'Authorization': `Bearer ${bearer}`,
